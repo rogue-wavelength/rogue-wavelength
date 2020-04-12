@@ -19,3 +19,11 @@ form div {
   margin: 1em;
   display: inline-block;
 }
+
+.psychic {
+  outline: 1px solid seagreen;
+}
+
+.player {
+  outline: 1px solid coral;
+}
