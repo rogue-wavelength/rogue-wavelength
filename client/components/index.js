@@ -6,3 +6,6 @@
 export {default as Navbar} from './navbar'
 export {default as UserHome} from './user-home'
 export {Login, Signup} from './auth-form'
+export {default as PlayerView} from './PlayerView'
+export {default as PsychicView} from './PsychicView'
+export {default as Game} from './Game'
