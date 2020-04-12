@@ -12,6 +12,19 @@ const Game = (props) => {
       <button onClick={handleClick}>hi</button>
       <PlayerView />
       <PsychicView />
+      <h3>Scores</h3>
+      <table>
+        <thead></thead>
+        <tr>
+          <td>Team A</td>
+          <td>0</td>
+          {/* {map statement of team members. even - team a, odd - team b} */}
+        </tr>
+        <tr>
+          <td>Team B</td>
+          <td>0</td>
+        </tr>
+      </table>
     </div>
   )
 }
