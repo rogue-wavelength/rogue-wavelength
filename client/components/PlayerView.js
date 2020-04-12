@@ -1,7 +1,11 @@
 import React from 'react'
 
 const PlayerView = (props) => {
-  return <p>player view</p>
+  return (
+    <div className="player">
+      <p>player view</p>
+    </div>
+  )
 }
 
 export default PlayerView
