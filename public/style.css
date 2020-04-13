@@ -20,10 +20,50 @@ form div {
   display: inline-block;
 }
 
-.psychic {
-  outline: 1px solid seagreen;
+.grid-container {
+  display: grid;
+  grid-template-columns: 10% auto 10%;
+  grid-template-rows: 100%;
 }
 
-.player {
-  outline: 1px solid coral;
+/* Team List styling */
+
+.team-list {
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+  border: black 1px solid;
+}
+
+.player-card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+  background-color: antiquewhite;
+  margin: 10px;
+}
+
+.psychic {
+  background-color: blueviolet;
+}
+
+/* Main Display styling */
+
+.main-display {
+  display: grid;
+  grid-template-columns: 100%;
+  grid-template-rows: 10% auto 30%;
+}
+
+.status {
+  border: 1px black solid;
+}
+
+.wheel-display {
+  border: 1px red dashed;
+}
+
+.card-display {
+  border: 1px blue dashed;
 }
