@@ -15,14 +15,14 @@ const Staging = (props) => {
       genRoom += alphabet.charAt(Math.floor(Math.random() * alphabet.length))
     }
     // TODO: add redux action to add player to team
-    socket.emit('room', genRoom)
+    socket.emit('joinRoom', {room: genRoom, name})
     props.history.push(`/game/${genRoom}?name=${name}`)
   }
 
   const handleJoin = (evt) => {
     evt.preventDefault()
     // TODO: add redux action to add player to team
-    socket.emit('room', room.toUpperCase())
+    socket.emit('joinRoom', {room: room.toUpperCase(), name})
     props.history.push(`/game/${room.toUpperCase()}?name=${name}`)
   }
 
