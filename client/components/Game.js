@@ -20,7 +20,7 @@ const Game = (props) => {
 
   return (
     <div>
-      {/* <p>this is the game</p> */}
+      <p>Your game room is: {props.match.params.id}</p>
       <button type="button" onClick={handleClick}>
         Test A Message
       </button>
