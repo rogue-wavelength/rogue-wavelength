@@ -9,6 +9,10 @@ socket.on('connect', () => {
     console.log('everyone got this message')
   })
 
+  socket.on('message', function (data) {
+    console.log('Incoming message:', data)
+  })
+
   socket.on('hi', (props) => {
     // test listener for specific player
     console.log('omg hi', props)
