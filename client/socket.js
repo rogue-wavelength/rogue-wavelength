@@ -5,20 +5,20 @@ const socket = io(window.location.origin)
 socket.on('connect', () => {
   console.log('Connected!')
 
-  socket.on('everyone', () => {
-    console.log('everyone got this message')
-  })
+  // socket.on('everyone', () => {
+  //   console.log('everyone got this message')
+  // })
 
   socket.on('message', function (data) {
     console.log('Incoming message:', data)
   })
 
-  socket.on('hi', (props) => {
-    // test listener for specific player
-    console.log('omg hi', props)
-  })
+  // socket.on('hi', (props) => {
+  //   // test listener for specific player
+  //   console.log('omg hi', props)
+  // })
 
-  socket.on('waiting', () => {
+  socket.on('waiting', (psychicId) => {
     console.log('waiting for psychic to choose card and clue')
     // players should see playerview - empty + 'please wait' message
     // psychic should see psychic view
