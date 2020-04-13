@@ -6,11 +6,12 @@ module.exports = (io) => {
     console.log(`A socket connection to the server has been made: ${socket.id}`)
     store.dispatch(addPlayer(socket.id))
 
+    // send message to everyone
     socket.emit('everyone')
 
     socket.on('game', (props) => {
       console.log('game clicked server', props.stuff)
-      console.log(store.getState().playerList[0])
+      // send message to just one user (test case)
       socket
         .to(store.getState().playerList[0])
         .emit('hi', 'this is the second argument')
