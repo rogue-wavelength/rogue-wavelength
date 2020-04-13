@@ -7,18 +7,29 @@ const Staging = (props) => {
   const [join, setJoin] = useState(true)
   const [host, setHost] = useState(true)
 
-  const handleSubmit = (evt) => {
+  const handleHost = (evt) => {
+    evt.preventDefault()
+    let genRoom = ''
+    const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    for (let i = 0; i < 4; i++) {
+      genRoom += alphabet.charAt(Math.floor(Math.random() * alphabet.length))
+    }
+    console.log(genRoom)
+    props.history.push(`/game/${genRoom}?name=${name}`)
+  }
+
+  const handleJoin = (evt) => {
     evt.preventDefault()
     socket.emit('room', room)
     props.history.push(`/game/${room}?name=${name}`)
   }
 
-  const handleJoin = (evt) => {
+  const showJoin = (evt) => {
     evt.preventDefault()
     setJoin(!join)
   }
 
-  const handleHost = (evt) => {
+  const showHost = (evt) => {
     evt.preventDefault()
     setHost(!host)
   }
@@ -31,7 +42,7 @@ const Staging = (props) => {
         hidden={!join}
         type="button"
         style={{fontSize: '2em'}}
-        onClick={handleHost}
+        onClick={showHost}
       >
         {`${host === false ? 'MAIN MENU' : 'HOST'}`}
       </button>
@@ -48,7 +59,7 @@ const Staging = (props) => {
         <button
           type="submit"
           style={{fontSize: '2em'}}
-          onClick={handleSubmit}
+          onClick={handleHost}
           disabled={name.length < 1}
         >
           SUBMIT
@@ -58,7 +69,7 @@ const Staging = (props) => {
         hidden={!host}
         type="button"
         style={{fontSize: '2em'}}
-        onClick={handleJoin}
+        onClick={showJoin}
       >
         {`${join === false ? 'MAIN MENU' : 'JOIN'}`}
       </button>
@@ -83,7 +94,7 @@ const Staging = (props) => {
         <button
           type="submit"
           style={{fontSize: '2em'}}
-          onClick={handleSubmit}
+          onClick={handleJoin}
           disabled={name.length < 1 || room.length !== 4}
         >
           SUBMIT
