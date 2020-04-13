@@ -13,7 +13,7 @@ module.exports = (io) => {
     socket.on('game', (props) => {
       console.log('game clicked server', props.stuff)
       // start game?
-      // determine first psychic and emit 'waiting'
+      // determine first psychic (initial state has it at 0 already) and emit 'waiting'
 
       // send message to just one user (test case)
       socket
