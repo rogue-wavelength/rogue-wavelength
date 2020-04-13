@@ -1,7 +1,7 @@
 'use strict'
 
 const db = require('../server/db')
-const {User} = require('../server/db/models')
+const {User, Card} = require('../server/db/models')
 
 async function seed() {
   await db.sync({force: true})
@@ -9,7 +9,41 @@ async function seed() {
 
   const users = await Promise.all([
     User.create({email: 'cody@email.com', password: '123'}),
-    User.create({email: 'murphy@email.com', password: '123'})
+    User.create({email: 'murphy@email.com', password: '123'}),
+  ])
+
+  await Promise.all([
+    Card.create({left: 'nerd', right: 'jock'}),
+    Card.create({left: 'young', right: 'old'}),
+    Card.create({left: 'wet', right: 'dry'}),
+    Card.create({left: 'little known fact', right: 'well known fact'}),
+    Card.create({left: 'poor person', right: 'rich person'}),
+    Card.create({left: 'cold weather', right: 'hot weather'}),
+    Card.create({left: 'mild food', right: 'spicy food'}),
+    Card.create({left: 'normal greeting', right: 'awkward greeting'}),
+    Card.create({left: 'best enjoyed hot', right: 'best enjoyed cold'}),
+    Card.create({left: 'useless', right: 'useful'}),
+    Card.create({left: 'tastes bad', right: 'tastes good'}),
+    Card.create({left: 'uncool', right: 'cool'}),
+    Card.create({left: 'south', right: 'north'}),
+    Card.create({left: 'silly', right: 'serious'}),
+    Card.create({left: 'tired', right: 'energetic'}),
+    Card.create({left: 'bad smell', right: 'good smell'}),
+    Card.create({left: 'famous', right: 'obscure'}),
+    Card.create({left: 'art', right: 'not art'}),
+    Card.create({left: 'enticing', right: 'disgusting'}),
+    Card.create({
+      left: 'strange way to wear a hat',
+      right: 'cool way to wear a hat',
+    }),
+    Card.create({left: 'weird noise', right: 'normal noise'}),
+    Card.create({left: 'thoughtful', right: 'insulting'}),
+    Card.create({left: 'lovely', right: 'boring'}),
+    Card.create({left: 'loud', right: 'quiet'}),
+    Card.create({left: 'complicated', right: 'simple'}),
+    Card.create({left: 'high-budget', right: 'low-budget'}),
+    Card.create({left: 'conspiracy', right: 'truth'}),
+    Card.create({left: 'indie', right: 'mainstream'}),
   ])
 
   console.log(`seeded ${users.length} users`)
