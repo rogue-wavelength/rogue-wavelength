@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import {PlayerView, PsychicView, TeamList, MainDisplay} from './'
 import socket from '../socket'
 
@@ -7,12 +7,14 @@ const teamB = ['Lihan', 'Crispy', 'Yena', 'Jonathan']
 const psychic = 'Jasmine'
 
 const Game = (props) => {
-  console.log(props)
-  var room = props.match.params.id
-
-  console.log(props.match)
+  const room = props.match.params.id
   const urlParams = new URLSearchParams(window.location.search)
   const name = urlParams.get('name')
+
+  // join room on load in case you navigated via a link
+  useEffect(() => {
+    socket.emit('joinRoom', {room, name})
+  }, [])
 
   const handleClick = (evt) => {
     socket.emit('game', room)
@@ -22,7 +24,7 @@ const Game = (props) => {
     <div>
       <p>Your game room is: {props.match.params.id}</p>
       <button type="button" onClick={handleClick}>
-        Test A Message
+        Start Game
       </button>
       <div className="grid-container">
         <TeamList team={teamA} psychic={psychic} />
