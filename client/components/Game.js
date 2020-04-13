@@ -7,10 +7,8 @@ const teamB = ['Lihan', 'Crispy', 'Yena', 'Jonathan']
 const psychic = 'Jasmine'
 
 const Game = (props) => {
-  console.log(props)
   var room = props.match.params.id
 
-  console.log(props.match)
   const urlParams = new URLSearchParams(window.location.search)
   const name = urlParams.get('name')
 

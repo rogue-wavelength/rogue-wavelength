@@ -14,7 +14,6 @@ const Staging = (props) => {
     for (let i = 0; i < 4; i++) {
       genRoom += alphabet.charAt(Math.floor(Math.random() * alphabet.length))
     }
-    console.log(genRoom)
     props.history.push(`/game/${genRoom}?name=${name}`)
   }
 
