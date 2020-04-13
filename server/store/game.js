@@ -25,9 +25,21 @@ const initialPlayerList = {
 /**
  * ACTION CREATORS
  */
-const addPlayer = (player) => ({type: ADD_PLAYER, player})
-
-const removePlayer = (player) => ({type: REMOVE_PLAYER, player})
+const setPsychic = (psychic) => ({type: SET_PSYCHIC, psychic})
+const setClueCardTarget = (clue, card, target) => ({
+  type: SET_CLUE_CARD_TARGET,
+  clue,
+  card,
+  target,
+})
+const setTeamGuess = (teamGuess) => ({type: SET_TEAM_GUESS, teamGuess})
+const setOpponentGuess = (opponentGuess) => ({
+  type: SET_OPPONENT_GUESS,
+  opponentGuess,
+})
+const setScore = (score) => ({type: SET_SCORE, score})
+const clearRound = () => ({type: CLEAR_ROUND})
+const clearGame = () => ({type: CLEAR_GAME})
 
 /**
  * THUNK CREATORS
