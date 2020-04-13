@@ -10,10 +10,6 @@ const Game = (props) => {
   console.log(props)
   var room = props.match.params.id
 
-  const handleRoom = (evt) => {
-    // Connected, let's sign-up for to receive messages for this room
-    // socket.emit('room', room)
-  }
   const handleClick = (evt) => {
     socket.emit('game', room)
   }
@@ -21,9 +17,6 @@ const Game = (props) => {
   return (
     <div>
       {/* <p>this is the game</p> */}
-      <button type="button" onClick={handleRoom}>
-        Join Room
-      </button>
       <button type="button" onClick={handleClick}>
         Test A Message
       </button>
