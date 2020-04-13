@@ -12,7 +12,7 @@ const Game = (props) => {
 
   const handleRoom = (evt) => {
     // Connected, let's sign-up for to receive messages for this room
-    socket.emit('room', room)
+    // socket.emit('room', room)
   }
   const handleClick = (evt) => {
     socket.emit('game', room)

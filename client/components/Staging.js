@@ -8,6 +8,7 @@ const Staging = (props) => {
   const handleSubmit = (evt) => {
     evt.preventDefault()
     // alert(`Entering room ${room}`)
+    socket.emit('room', room)
     props.history.push(`/game/${room}`)
   }
 
