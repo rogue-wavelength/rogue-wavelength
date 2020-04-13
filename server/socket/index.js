@@ -2,23 +2,30 @@ const store = require('../store')
 const {addPlayer, removePlayer} = require('../store/playerList')
 
 module.exports = (io) => {
-  io.on('connection', (socket) => {
+  io.on('connect', (socket) => {
     console.log(`A socket connection to the server has been made: ${socket.id}`)
+    socket.on('room', (room) => {
+      socket.join(room)
+      console.log('joined ' + room)
+    })
     // add player to back end redux state
-    store.dispatch(addPlayer(socket.id)) // associate socket id with user id?? with session id?
 
+    // let room = 'abc123room'
+
+    store.dispatch(addPlayer(socket.id)) // associate socket id with user id?? with session id?
     // send message to everyone
     socket.emit('everyone')
 
-    socket.on('game', (props) => {
-      console.log('game clicked server', props.stuff)
+    socket.on('game', (room) => {
+      console.log('game clicked server', room)
+
+      io.sockets.in(room).emit('message', 'whats up peeps?')
       // start game?
       // determine first psychic (initial state has it at 0 already) and emit 'waiting'
-
       // send message to just one user (test case)
-      socket
-        .to(store.getState().playerList[0])
-        .emit('hi', 'this is the second argument')
+      // socket
+      //   .to(store.getState().playerList[0])
+      //   .emit('hi', 'this is the second argument')
     })
 
     socket.on('flip', (cardData) => {
