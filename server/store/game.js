@@ -6,13 +6,13 @@ const SET_CLUE_CARD_TARGET = 'SET_CLUE_CARD_TARGET'
 const SET_TEAM_GUESS = 'SET_TEAM_GUESS'
 const SET_OPPONENT_GUESS = 'SET_OPPONENT_GUESS'
 const SET_SCORE = 'SET_SCORE'
-const CLEAR_ROUND = 'CLEAR_ROUND'
+const SET_UP_NEXT_ROUND = 'SET_UP_NEXT_ROUND'
 const CLEAR_GAME = 'CLEAR_GAME'
 
 /**
  * INITIAL STATE
  */
-const initialPlayerList = {
+const initialGameState = {
   psychic: 0, // index of psychic in array
   currentCard: ['first val', 'second val'],
   target: 0, //0 - 100
@@ -38,7 +38,7 @@ const setOpponentGuess = (opponentGuess) => ({
   opponentGuess,
 })
 const setScore = (score) => ({type: SET_SCORE, score})
-const clearRound = () => ({type: CLEAR_ROUND})
+const setUpNextRound = () => ({type: SET_UP_NEXT_ROUND})
 const clearGame = () => ({type: CLEAR_GAME})
 
 /**
@@ -48,21 +48,46 @@ const clearGame = () => ({type: CLEAR_GAME})
 /**
  * REDUCER
  */
-const playerList = (state = initialPlayerList, action) => {
+const game = (state = initialGameState, action) => {
   switch (action.type) {
-    case ADD_PLAYER:
-      // console.log('player added', state)
-      return [...state, action.player]
-    case REMOVE_PLAYER:
-      // console.log('player removed', state)
-      return state.filter((player) => player !== action.player)
+    case SET_PSYCHIC:
+      // unsure if necessary considering SET_UP_NEXT_ROUND
+      return {...state, psychic: action.psychic}
+    case SET_CLUE_CARD_TARGET:
+      // a single action because only set by psychic once per round
+      return {
+        ...state,
+        currentCard: action.card,
+        target: action.target,
+        clue: action.clue,
+      }
+    case SET_TEAM_GUESS:
+      return {...state, teamGuess: action.teamGuess}
+    case SET_OPPONENT_GUESS:
+      return {...state, opponentGuess: action.opponentGuess}
+    case SET_SCORE:
+      return {...state, score: action.score}
+    case SET_UP_NEXT_ROUND:
+      //clears game state, increments psychic, keeps score
+      return {
+        ...initialGameState,
+        psychic: state.psychic + 1,
+        score: state.score,
+      }
+    case CLEAR_GAME:
+      return initialGameState
     default:
       return state
   }
 }
 
 module.exports = {
-  addPlayer,
-  removePlayer,
-  playerList,
+  game,
+  setPsychic,
+  setClueCardTarget,
+  setTeamGuess,
+  setOpponentGuess,
+  setScore,
+  setUpNextRound,
+  clearGame,
 }
