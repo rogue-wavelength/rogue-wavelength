@@ -22,7 +22,6 @@ module.exports = (io) => {
       io.sockets.in(room).emit('message', 'whats up peeps?')
       // start game?
       // determine first psychic (initial state has it at 0 already) and emit 'waiting'
-
       // send message to just one user (test case)
       // socket
       //   .to(store.getState().playerList[0])

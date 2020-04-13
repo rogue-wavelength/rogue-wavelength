@@ -8,7 +8,7 @@ const psychic = 'Jasmine'
 
 const Game = (props) => {
   console.log(props)
-  var room = 'abc123room'
+  var room = props.match.params.id
 
   const handleRoom = (evt) => {
     // Connected, let's sign-up for to receive messages for this room
