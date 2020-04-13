@@ -1,6 +1,11 @@
 import React from 'react'
-import {PlayerView, PsychicView} from './'
+import {PlayerView, PsychicView, TeamList, MainDisplay} from './'
 import socket from '../socket'
+
+const teamA = ['Jasmine', 'Antanas', 'a duck']
+const teamB = ['Lihan', 'Crispy', 'Yena', 'Jonathan']
+const psychic = 'Jasmine'
+
 const Game = (props) => {
   console.log(props)
   const handleClick = (evt) => {
@@ -8,25 +13,34 @@ const Game = (props) => {
   }
   return (
     <div>
-      <p>this is the game</p>
-      <button onClick={handleClick}>hi</button>
-      <PlayerView />
-      <PsychicView />
-      <h3>Scores</h3>
-      <table>
-        <thead></thead>
-        <tr>
-          <td>Team A</td>
-          <td>0</td>
-          {/* {map statement of team members. even - team a, odd - team b} */}
-        </tr>
-        <tr>
-          <td>Team B</td>
-          <td>0</td>
-        </tr>
-      </table>
+      {/* <p>this is the game</p> */}
+      {/* <button onClick={handleClick}>hi</button> */}
+      <div className="grid-container">
+        <TeamList team={teamA} psychic={psychic} />
+        <MainDisplay />
+        <TeamList team={teamB} psychic={psychic} />
+      </div>
+
+      {/* <PlayerView /> */}
+      {/* <PsychicView /> */}
     </div>
   )
 }
 
 export default Game
+
+/* <h3>Scores</h3>
+<table>
+  <thead></thead>
+  <tbody>
+    <tr>
+      <td>Team A</td>
+      <td>0</td>
+      {{map statement of team members. even - team a, odd - team b}}
+    </tr>
+    <tr>
+      <td>Team B</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table> */
