@@ -30,7 +30,7 @@ WORKDIR /app
 COPY --from=builder /tmp/node_modules ./node_modules
 COPY --from=builder /app/server ./server
 COPY --from=builder /app/public ./public
-COPY --from=builder /app/secrets ./secrets
+COPY --from=builder /app/secrets.js ./secrets.js
 COPY --from=builder /app/package.json ./
 
 CMD ["npm", "run", "start-server"]
