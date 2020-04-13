@@ -53,7 +53,7 @@ form div {
 .main-display {
   display: grid;
   grid-template-columns: 100%;
-  grid-template-rows: 10% auto 30%;
+  grid-template-rows: 10% 60% 30%;
 }
 
 .status {
@@ -62,6 +62,7 @@ form div {
 
 .wheel-display {
   border: 1px red dashed;
+  width: 100%;
 }
 
 .card-display {
