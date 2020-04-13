@@ -1,6 +1,6 @@
 const db = require('./db')
 
 // register models
-const {Card, User} = require('./models')
+require('./models')
 
-module.exports = {db, Card, User}
+module.exports = db
