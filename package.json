@@ -1,7 +1,7 @@
 {
-  "name": "boilermaker",
+  "name": "rogue-wavelength",
   "version": "2.0.0",
-  "description": "Some boilerplate code to get you started - get shakin'!",
+  "description": "A social guessing game in which two teams compete to read each other's minds",
   "engines": {
     "node": ">= 7.0.0"
   },
@@ -44,6 +44,7 @@
     "axios": "^0.19.0",
     "compression": "^1.7.3",
     "connect-session-sequelize": "^6.0.0",
+    "dotenv": "^8.2.0",
     "express": "^4.16.4",
     "express-session": "^1.15.1",
     "history": "^4.9.0",

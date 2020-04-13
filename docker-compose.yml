@@ -1,0 +1,31 @@
+version: '3.7'
+services:
+  postgres:
+    image: postgres:alpine
+    volumes:
+      - postgres_data:/data
+    expose:
+      - 5432
+    environment:
+      - POSTGRES_DB=${DATABASE_NAME}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+  app:
+    depends_on:
+      - postgres
+    build: .
+    # volumes:
+    #   - ./server:/app/server
+    ports:
+      - "${PORT}:${PORT}"
+    environment:
+      - NODE_ENV=development
+      - PORT=${PORT}
+      - DATABASE_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432
+      - DATABASE_NAME=${DATABASE_NAME}
+      - SESSION_SECRET=${SESSION_SECRET}
+    # working_dir: /app
+    command: npm run start-server
+
+volumes:
+  postgres_data: {}
