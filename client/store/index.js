@@ -5,8 +5,9 @@ import {composeWithDevTools} from 'redux-devtools-extension'
 import user from './user'
 import game from './game'
 import card from './card'
+import username from './username'
 
-const reducer = combineReducers({game, user, card})
+const reducer = combineReducers({game, user, card, username})
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))
 )
@@ -14,6 +15,7 @@ const store = createStore(reducer, middleware)
 
 export default store
 export * from './user'
+export * from './username'
 
 const targetInitialState = {
   game: {
