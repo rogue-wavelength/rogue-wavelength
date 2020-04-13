@@ -27,7 +27,16 @@ const playerList = (state = initialPlayerList, action) => {
   switch (action.type) {
     case ADD_PLAYER:
       // console.log('player added', state)
-      return [...state, action.player]
+      let changed = false
+      const updatedPlayer = state.map((el) => {
+        if (el.name === action.player.name) {
+          changed = true
+          return action.player
+        }
+        return el
+      })
+      if (changed) return updatedPlayer
+      else return [...state, action.player]
     case REMOVE_PLAYER:
       // console.log('player removed', state)
       return state.filter((player) => player !== action.player)
