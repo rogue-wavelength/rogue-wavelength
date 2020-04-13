@@ -33,7 +33,7 @@ const fetchCards = () => async (dispatch) => {
 }
 
 const postCard = (card) => async (dispatch) => {
-  const {data} = await axios.push('/api/cards/new', card)
+  const {data} = await axios.post('/api/cards/new', card)
   dispatch(addCard(data))
 }
 
