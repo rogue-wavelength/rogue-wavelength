@@ -4,6 +4,7 @@ const {addPlayer, removePlayer} = require('../store/playerList')
 module.exports = (io) => {
   io.on('connect', (socket) => {
     console.log(`A socket connection to the server has been made: ${socket.id}`)
+
     socket.on('room', (room) => {
       socket.join(room)
       console.log('joined ' + room)
