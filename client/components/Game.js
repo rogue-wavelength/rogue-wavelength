@@ -8,19 +8,30 @@ const psychic = 'Jasmine'
 
 const Game = (props) => {
   console.log(props)
-  const handleClick = (evt) => {
-    socket.emit('game', {stuff: 123})
+  var room = 'abc123room'
+
+  const handleRoom = (evt) => {
+    // Connected, let's sign-up for to receive messages for this room
+    socket.emit('room', room)
   }
+  const handleClick = (evt) => {
+    socket.emit('game', room)
+  }
+
   return (
     <div>
       {/* <p>this is the game</p> */}
-      {/* <button onClick={handleClick}>hi</button> */}
+      <button type="button" onClick={handleRoom}>
+        Join Room
+      </button>
+      <button type="button" onClick={handleClick}>
+        Test A Message
+      </button>
       <div className="grid-container">
         <TeamList team={teamA} psychic={psychic} />
         <MainDisplay />
         <TeamList team={teamB} psychic={psychic} />
       </div>
-
       {/* <PlayerView /> */}
       {/* <PsychicView /> */}
     </div>
