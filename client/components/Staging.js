@@ -15,13 +15,14 @@ const Staging = (props) => {
       genRoom += alphabet.charAt(Math.floor(Math.random() * alphabet.length))
     }
     console.log(genRoom)
+    socket.emit('room', genRoom)
     props.history.push(`/game/${genRoom}?name=${name}`)
   }
 
   const handleJoin = (evt) => {
     evt.preventDefault()
-    socket.emit('room', room)
-    props.history.push(`/game/${room}?name=${name}`)
+    socket.emit('room', room.toUpperCase())
+    props.history.push(`/game/${room.toUpperCase()}?name=${name}`)
   }
 
   const showJoin = (evt) => {
