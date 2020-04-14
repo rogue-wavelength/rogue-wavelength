@@ -1,8 +1,7 @@
-/**
- * ACTION TYPES
- */
+/* eslint-disable complexity */
 const ADD_GAME = 'ADD_GAME'
-const SET_PSYCHIC = 'SET_PSYCHIC'
+const ADD_PLAYER = 'ADD_PLAYER'
+const NEXT_PSYCHIC = 'NEXT_PSYCHIC'
 const SET_CLUE_CARD_TARGET = 'SET_CLUE_CARD_TARGET'
 const SET_TEAM_GUESS = 'SET_TEAM_GUESS'
 const SET_OPPONENT_GUESS = 'SET_OPPONENT_GUESS'
@@ -10,13 +9,11 @@ const SET_SCORE = 'SET_SCORE'
 const SET_UP_NEXT_ROUND = 'SET_UP_NEXT_ROUND'
 const CLEAR_GAME = 'CLEAR_GAME'
 
-/**
- * INITIAL STATE
- */
 const initialGameState = {
   teamA: [],
   teamB: [],
-  psychic: 0, // index of psychic in array
+  psychicQueue: [],
+  psychic: {}, // player object
   currentCard: ['first val', 'second val'],
   target: 0, //0 - 100
   clue: '',
@@ -25,67 +22,133 @@ const initialGameState = {
   score: [0, 0], // teamA, teamB
 }
 
-/**
- * ACTION CREATORS
- */
 const addGame = (roomCode) => ({
   type: ADD_GAME,
   roomCode,
 })
 
-const setPsychic = (roomId, psychic) => ({type: SET_PSYCHIC, psychic, roomId})
-const setClueCardTarget = (clue, card, target) => ({
+const addPlayerToGame = (roomCode, player) => {
+  // adds player to a team based on team balance
+  return {
+    type: ADD_PLAYER,
+    roomCode,
+    player,
+  }
+}
+
+const setNextPsychic = (roomCode) => {
+  return {
+    type: NEXT_PSYCHIC,
+    roomCode,
+  }
+}
+
+const setClueCardTarget = (roomCode, clue, card, target) => ({
   type: SET_CLUE_CARD_TARGET,
+  roomCode,
   clue,
   card,
   target,
 })
-const setTeamGuess = (teamGuess) => ({type: SET_TEAM_GUESS, teamGuess})
-const setOpponentGuess = (opponentGuess) => ({
+
+const setTeamGuess = (roomCode, teamGuess) => ({
+  type: SET_TEAM_GUESS,
+  roomCode,
+  teamGuess,
+})
+
+const setOpponentGuess = (roomCode, opponentGuess) => ({
   type: SET_OPPONENT_GUESS,
+  roomCode,
   opponentGuess,
 })
-const setScore = (score) => ({type: SET_SCORE, score})
-const setUpNextRound = () => ({type: SET_UP_NEXT_ROUND})
-const clearGame = () => ({type: CLEAR_GAME})
 
-/**
- * THUNK CREATORS
- */
+const setScore = (roomCode, score) => ({type: SET_SCORE, roomCode, score})
 
-/**
- * REDUCER
- */
+const setUpNextRound = (roomCode) => ({type: SET_UP_NEXT_ROUND, roomCode})
+
+const clearGame = (roomCode) => ({type: CLEAR_GAME, roomCode})
+
 const game = (state = {}, action) => {
+  const {roomCode} = action
   switch (action.type) {
     case ADD_GAME:
-      return {...state, [action.roomCode]: initialGameState}
-    case SET_PSYCHIC:
-      // unsure if necessary considering SET_UP_NEXT_ROUND
-      return {...state, psychic: action.psychic}
+      return {...state, [roomCode]: initialGameState}
+    case ADD_PLAYER:
+      return state[roomCode].teamA.length <= state[roomCode].teamB.length
+        ? {
+            ...state,
+            [roomCode]: {
+              ...state[roomCode],
+              psychicQueue: [...state[roomCode].psychicQueue, action.player],
+              teamA: [...state[roomCode].teamA, action.player],
+            },
+          }
+        : {
+            ...state,
+            [roomCode]: {
+              ...state[roomCode],
+              psychicQueue: [...state[roomCode].psychicQueue, action.player],
+              teamB: [...state[roomCode].teamB, action.player],
+            },
+          }
+    case NEXT_PSYCHIC:
+      const newQueue = [...state[roomCode].psychicQueue]
+      const next = newQueue.shift()
+      newQueue.push(next)
+      return {
+        ...state,
+        [roomCode]: {...state[roomCode], psychicQueue: newQueue, psychic: next},
+      }
     case SET_CLUE_CARD_TARGET:
       // a single action because only set by psychic once per round
       return {
         ...state,
-        currentCard: action.card,
-        target: action.target,
-        clue: action.clue,
+        [roomCode]: {
+          ...state[roomCode],
+          currentCard: action.card,
+          target: action.target,
+          clue: action.clue,
+        },
       }
     case SET_TEAM_GUESS:
-      return {...state, teamGuess: action.teamGuess}
+      return {
+        ...state,
+        [roomCode]: {
+          ...state[roomCode],
+          teamGuess: action.teamGuess,
+        },
+      }
     case SET_OPPONENT_GUESS:
-      return {...state, opponentGuess: action.opponentGuess}
+      return {
+        ...state,
+        [roomCode]: {
+          ...state[roomCode],
+          opponentGuess: action.opponentGuess,
+        },
+      }
     case SET_SCORE:
-      return {...state, score: action.score}
+      return {
+        ...state,
+        [roomCode]: {
+          ...state[roomCode],
+          score: action.score,
+        },
+      }
     case SET_UP_NEXT_ROUND:
       //clears game state, increments psychic, keeps score
       return {
-        ...initialGameState,
-        psychic: state.psychic + 1,
-        score: state.score,
+        ...state,
+        [roomCode]: {
+          ...initialGameState,
+          score: state.score,
+        },
       }
     case CLEAR_GAME:
-      return initialGameState
+      return {
+        ...state,
+        [roomCode]: initialGameState,
+      }
     default:
       return state
   }
@@ -93,7 +156,9 @@ const game = (state = {}, action) => {
 
 module.exports = {
   game,
-  setPsychic,
+  addGame,
+  addPlayerToGame,
+  setNextPsychic,
   setClueCardTarget,
   setTeamGuess,
   setOpponentGuess,
