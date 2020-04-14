@@ -69,13 +69,18 @@ const setUpNextRound = (roomCode) => ({type: SET_UP_NEXT_ROUND, roomCode})
 
 const clearGame = (roomCode) => ({type: CLEAR_GAME, roomCode})
 
+const gameReducerCreator = (roomCode) => (state = initialGameState, action) => {
+  //switch statements here?
+}
+
 const game = (state = {}, action) => {
   const {roomCode} = action
   switch (action.type) {
     case ADD_GAME:
       return {...state, [roomCode]: initialGameState}
     case ADD_PLAYER:
-      return state[roomCode].teamA.length <= state[roomCode].teamB.length
+      return state[roomCode] &&
+        state[roomCode].teamA.length <= state[roomCode].teamB.length
         ? {
             ...state,
             [roomCode]: {
