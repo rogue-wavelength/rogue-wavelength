@@ -1,18 +1,17 @@
 import React from 'react'
 import {PlayerView, PsychicView, TeamList, MainDisplay} from './'
 import socket from '../socket'
+import {useSelector} from 'react-redux'
 
 const teamA = ['Jasmine', 'Antanas', 'a duck']
 const teamB = ['Lihan', 'Crispy', 'Yena', 'Jonathan']
 const psychic = 'Jasmine'
 
 const Game = (props) => {
-  console.log(props)
   var room = props.match.params.id
 
-  console.log(props.match)
-  const urlParams = new URLSearchParams(window.location.search)
-  const name = urlParams.get('name')
+  const roomUsers = useSelector((state) => state.username)
+  console.log(roomUsers)
 
   const handleClick = (evt) => {
     socket.emit('game', room)
