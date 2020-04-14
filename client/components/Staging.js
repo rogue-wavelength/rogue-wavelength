@@ -4,13 +4,12 @@ import socket from '../socket'
 
 import {setUser} from '../store'
 
+//Host or Join a game Component
 const Staging = (props) => {
   const [room, setRoom] = useState('')
   const [name, setName] = useState('')
   const [join, setJoin] = useState(true)
   const [host, setHost] = useState(true)
-
-  const dispatch = useDispatch()
 
   const handleHost = (evt) => {
     evt.preventDefault()
@@ -19,16 +18,14 @@ const Staging = (props) => {
     for (let i = 0; i < 4; i++) {
       genRoom += alphabet.charAt(Math.floor(Math.random() * alphabet.length))
     }
-    socket.emit('room', genRoom)
-    dispatch(setUser(name))
-    props.history.push(`/game/${genRoom}`)
+    socket.emit('room', genRoom, name)
+    props.history.push(`/game/${genRoom}/group`)
   }
 
   const handleJoin = (evt) => {
     evt.preventDefault()
-    socket.emit('room', room)
-    dispatch(setUser(name))
-    props.history.push(`/game/${room}`)
+    socket.emit('room', room, name)
+    props.history.push(`/game/${room}/group`)
   }
 
   const showJoin = (evt) => {

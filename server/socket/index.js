@@ -4,9 +4,11 @@ const {addPlayer, removePlayer} = require('../store/playerList')
 module.exports = (io) => {
   io.on('connect', (socket) => {
     console.log(`A socket connection to the server has been made: ${socket.id}`)
-    socket.on('room', (room) => {
+    socket.on('room', (room, name) => {
       socket.join(room)
       console.log('joined ' + room)
+
+      // store.dispatch(name)
     })
     // add player to back end redux state
 

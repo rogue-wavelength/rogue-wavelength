@@ -26,7 +26,7 @@ const removePlayer = (player) => ({type: REMOVE_PLAYER, player})
 const playerList = (state = initialPlayerList, action) => {
   switch (action.type) {
     case ADD_PLAYER:
-      // console.log('player added', state)
+      console.log('player added', state)
       return [...state, action.player]
     case REMOVE_PLAYER:
       // console.log('player removed', state)
