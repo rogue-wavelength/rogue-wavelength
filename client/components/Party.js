@@ -10,6 +10,7 @@ const Party = (props) => {
 
   return (
     <div>
+      {`Your game room is ${props.match.params.id}`}
       {console.log(players)}
       {players
         ? [players].map((player, idx) => {

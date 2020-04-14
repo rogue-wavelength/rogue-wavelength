@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import {PlayerView, PsychicView, TeamList, MainDisplay} from './'
 import socket from '../socket'
 import {useSelector} from 'react-redux'
@@ -11,27 +11,30 @@ const psychic = 'Jasmine'
 const Game = (props) => {
   var room = props.match.params.id
 
-  const handleClick = (evt) => {
-    socket.emit('game', room)
-  }
+  const roomUsers = useSelector((state) => state.username)
+  console.log(roomUsers)
+
+  // join room on load in case you navigated via a link
+  useEffect(() => {
+    socket.emit('joinRoom', {room, name})
+  }, [])
+
+  // const handleClick = (evt) => {
+  //   socket.emit('game', room)
+  // }
 
   return (
-    <>
-      <Party />
-      <div>
-        {/* <p>this is the game</p> */}
-        <button type="button" onClick={handleClick}>
-          Test A Message
-        </button>
-        <div className="grid-container">
-          <TeamList team={teamA} psychic={psychic} />
-          <MainDisplay />
-          <TeamList team={teamB} psychic={psychic} />
-        </div>
-        {/* <PlayerView /> */}
-        {/* <PsychicView /> */}
+    <div>
+      {/* <p>Your game room is: {props.match.params.id}</p>
+      <button type="button" onClick={handleClick}>
+        Start Game
+      </button> */}
+      <div className="grid-container">
+        <TeamList team={teamA} psychic={psychic} />
+        <MainDisplay />
+        <TeamList team={teamB} psychic={psychic} />
       </div>
-    </>
+    </div>
   )
 }
 
