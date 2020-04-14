@@ -10,9 +10,6 @@ const psychic = 'Jasmine'
 const Game = (props) => {
   var room = props.match.params.id
 
-  // const urlParams = new URLSearchParams(window.location.search)
-  // const name = urlParams.get('name')
-
   const roomUsers = useSelector((state) => state.username)
   console.log(roomUsers)
 
