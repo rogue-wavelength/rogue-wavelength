@@ -25,7 +25,7 @@ const initialGameState = {
 /**
  * ACTION CREATORS
  */
-const setPsychic = (psychic) => ({type: SET_PSYCHIC, psychic})
+const setPsychic = (roomId, psychic) => ({type: SET_PSYCHIC, psychic, roomId})
 const setClueCardTarget = (clue, card, target) => ({
   type: SET_CLUE_CARD_TARGET,
   clue,

@@ -4,15 +4,17 @@ const {addPlayer, removePlayer} = require('../store/playerList')
 module.exports = (io) => {
   io.on('connect', (socket) => {
     console.log(`A socket connection to the server has been made: ${socket.id}`)
-    socket.on('room', (room) => {
-      socket.join(room)
-      console.log('joined ' + room)
+
+    socket.on('joinRoom', (data) => {
+      socket.join(data.room)
+      store.dispatch(addPlayer({name: data.name, id: socket.id})) // associate socket id with user id?? with session id?
+      console.log('joined ' + data.room)
     })
     // add player to back end redux state
 
     store.dispatch(addPlayer(socket.id)) // associate socket id with user id?? with session id?
     // send message to everyone
-    socket.emit('everyone')
+    // socket.emit('everyone')
 
     socket.on('game', (room) => {
       console.log('game clicked server', room)
@@ -20,6 +22,8 @@ module.exports = (io) => {
       io.sockets.in(room).emit('message', 'whats up peeps?')
       // start game?
       // determine first psychic (initial state has it at 0 already) and emit 'waiting'
+      socket.emit('waiting', store.getState().game.psychic)
+
       // send message to just one user (test case)
       // socket
       //   .to(store.getState().playerList[0])
