@@ -12,6 +12,7 @@ module.exports = (io) => {
     })
     // add player to back end redux state
 
+    store.dispatch(addPlayer(socket.id)) // associate socket id with user id?? with session id?
     // send message to everyone
     // socket.emit('everyone')
 

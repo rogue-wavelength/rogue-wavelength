@@ -1,15 +1,17 @@
 import React, {useEffect} from 'react'
 import {PlayerView, PsychicView, TeamList, MainDisplay} from './'
 import socket from '../socket'
+import {useSelector} from 'react-redux'
 
 const teamA = ['Jasmine', 'Antanas', 'a duck']
 const teamB = ['Lihan', 'Crispy', 'Yena', 'Jonathan']
 const psychic = 'Jasmine'
 
 const Game = (props) => {
-  const room = props.match.params.id
-  const urlParams = new URLSearchParams(window.location.search)
-  const name = urlParams.get('name')
+  var room = props.match.params.id
+
+  const roomUsers = useSelector((state) => state.username)
+  console.log(roomUsers)
 
   // join room on load in case you navigated via a link
   useEffect(() => {

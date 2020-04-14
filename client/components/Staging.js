@@ -1,11 +1,16 @@
 import React, {useState} from 'react'
+import {useDispatch, useSelector} from 'react-redux'
 import socket from '../socket'
+
+import {setUser} from '../store'
 
 const Staging = (props) => {
   const [room, setRoom] = useState('')
   const [name, setName] = useState('')
   const [join, setJoin] = useState(true)
   const [host, setHost] = useState(true)
+
+  const dispatch = useDispatch()
 
   const handleHost = (evt) => {
     evt.preventDefault()
@@ -14,16 +19,16 @@ const Staging = (props) => {
     for (let i = 0; i < 4; i++) {
       genRoom += alphabet.charAt(Math.floor(Math.random() * alphabet.length))
     }
-    // TODO: add redux action to add player to team
-    socket.emit('joinRoom', {room: genRoom, name})
-    props.history.push(`/game/${genRoom}?name=${name}`)
+    socket.emit('room', genRoom)
+    dispatch(setUser(name))
+    props.history.push(`/game/${genRoom}`)
   }
 
   const handleJoin = (evt) => {
     evt.preventDefault()
-    // TODO: add redux action to add player to team
-    socket.emit('joinRoom', {room: room.toUpperCase(), name})
-    props.history.push(`/game/${room.toUpperCase()}?name=${name}`)
+    socket.emit('room', room)
+    dispatch(setUser(name))
+    props.history.push(`/game/${room}`)
   }
 
   const showJoin = (evt) => {
