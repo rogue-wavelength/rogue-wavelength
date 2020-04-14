@@ -13,6 +13,8 @@ const serverState = {
   playerList: [{name, socketId, room}],
   game: {
     CODE: {
+      teamA: [{}],
+      teamB: [{}],
       psychic: 0, // index of psychic in array
       currentCard: ['first val', 'second val'],
       target: 0, //0 - 100
