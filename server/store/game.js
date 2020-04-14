@@ -1,6 +1,7 @@
 /**
  * ACTION TYPES
  */
+const ADD_GAME = 'ADD_GAME'
 const SET_PSYCHIC = 'SET_PSYCHIC'
 const SET_CLUE_CARD_TARGET = 'SET_CLUE_CARD_TARGET'
 const SET_TEAM_GUESS = 'SET_TEAM_GUESS'
@@ -13,6 +14,8 @@ const CLEAR_GAME = 'CLEAR_GAME'
  * INITIAL STATE
  */
 const initialGameState = {
+  teamA: [],
+  teamB: [],
   psychic: 0, // index of psychic in array
   currentCard: ['first val', 'second val'],
   target: 0, //0 - 100
@@ -25,6 +28,11 @@ const initialGameState = {
 /**
  * ACTION CREATORS
  */
+const addGame = (roomCode) => ({
+  type: ADD_GAME,
+  roomCode,
+})
+
 const setPsychic = (roomId, psychic) => ({type: SET_PSYCHIC, psychic, roomId})
 const setClueCardTarget = (clue, card, target) => ({
   type: SET_CLUE_CARD_TARGET,
@@ -48,8 +56,10 @@ const clearGame = () => ({type: CLEAR_GAME})
 /**
  * REDUCER
  */
-const game = (state = initialGameState, action) => {
+const game = (state = {}, action) => {
   switch (action.type) {
+    case ADD_GAME:
+      return {...state, [action.roomCode]: initialGameState}
     case SET_PSYCHIC:
       // unsure if necessary considering SET_UP_NEXT_ROUND
       return {...state, psychic: action.psychic}
