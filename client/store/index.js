@@ -26,3 +26,13 @@ const targetInitialState = {
   },
   cards: [],
 }
+
+/**
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ */
