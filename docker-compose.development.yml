@@ -3,8 +3,6 @@ services:
   postgres:
     env_file:
       - development.env
-    volumes:
-      - dev_data:/data
 
   app:
     env_file:
@@ -15,12 +13,6 @@ services:
         target: development
     volumes:
       - type: bind
-        source: ./server
-        target: /app/server
-      - type: bind
-        source: ./client
-        target: /app/client
+        source: ./
+        target: /app
     command: npm run start-dev
-
-volumes:
-  dev_data: {}

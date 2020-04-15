@@ -16,9 +16,9 @@ COPY . .
 
 # Stage 3: Build
 FROM development AS builder
+
 RUN npm run lint
 RUN npm run prettify
-# RUN npm run seed # if needed
 # RUN npm run test # tests are not passing right now
 RUN npm run build-client
 
@@ -31,6 +31,7 @@ COPY --from=builder /tmp/node_modules ./node_modules
 COPY --from=builder /app/server ./server
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/secrets.js ./secrets.js
+COPY --from=builder /app/script/seed.js ./script/seed.js
 COPY --from=builder /app/package.json ./
 
 CMD ["npm", "run", "start-server"]
