@@ -30,3 +30,16 @@ router.post('/new', async (req, res, next) => {
     next(error)
   }
 })
+
+router.put('/:id', async (req, res, next) => {
+  try {
+    const {
+      body: {left, right},
+      params: {id},
+    } = req
+    await Card.update({left, right}, {where: {id}})
+    res.send(`Updated card ${id}`)
+  } catch (error) {
+    next(error)
+  }
+})
