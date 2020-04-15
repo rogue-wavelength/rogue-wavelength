@@ -1,0 +1,26 @@
+version: '3.7'
+services:
+  postgres:
+    env_file:
+      - development.env
+    volumes:
+      - dev_data:/data
+
+  app:
+    env_file:
+      - development.env
+    build:
+        context: ./
+        dockerfile: Dockerfile
+        target: development
+    volumes:
+      - type: bind
+        source: ./server
+        target: /app/server
+      - type: bind
+        source: ./client
+        target: /app/client
+    command: npm run start-dev
+
+volumes:
+  dev_data: {}
