@@ -2,15 +2,16 @@ const {createStore, combineReducers, applyMiddleware} = require('redux')
 const {playerList} = require('./playerList')
 const {game} = require('./game')
 
-const reducer = combineReducers({playerList, game})
+const newStore = function () {
+  const reducer = combineReducers({playerList, game})
+  return createStore(reducer)
+}
 
-const store = createStore(reducer)
-
-module.exports = store
+module.exports = newStore
 
 //server side state
 const serverState = {
-  playerList: [{name, socketId, room}],
+  playerList: [{name: '', socketId: '', room: ''}],
   game: {
     CODE: {
       teamA: [{}],
