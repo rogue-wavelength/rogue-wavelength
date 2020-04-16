@@ -50,11 +50,11 @@ const playerList = (state = initialPlayerList, action) => {
       return {...state, [team]: newTeam}
     }
     case MOVE_PLAYER: {
-      const [otherTeam] = Object.keys(state).filter((d) => d !== action.toTeam)
-      const [playerName] = Object.keys(state[otherTeam])
-      const {[playerName]: playerId, ...newOtherTeam} = state[otherTeam]
+      const [fromTeam] = Object.keys(state).filter((d) => d !== action.toTeam)
+      const [playerName] = Object.keys(state[fromTeam])
+      const {[playerName]: playerId, ...newFromTeam} = state[fromTeam]
       return {
-        [otherTeam]: newOtherTeam,
+        [fromTeam]: newFromTeam,
         [action.toTeam]: {...state[action.toTeam], [playerName]: playerId},
       }
     }
