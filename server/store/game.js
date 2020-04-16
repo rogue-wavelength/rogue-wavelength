@@ -6,26 +6,34 @@ const SET_CLUE_CARD_TARGET = 'SET_CLUE_CARD_TARGET'
 const SET_TEAM_GUESS = 'SET_TEAM_GUESS'
 const SET_OPPONENT_GUESS = 'SET_OPPONENT_GUESS'
 const SET_SCORE = 'SET_SCORE'
+const INCREASE_SCORE = 'INCREASE_SCORE'
 const SET_UP_NEXT_ROUND = 'SET_UP_NEXT_ROUND'
 const CLEAR_GAME = 'CLEAR_GAME'
 
 /**
  * INITIAL STATE
+ * @member {string} psychic the name of the current psychic
+ * @member {string[]} currentCard a tuple of the left and right values of the card
+ * @member {number} target [0-100] the middle value of the spinner
+ * @member {string} clue the current psychic's clue to their team
+ * @member {string} teamGuess [0-100] the current team's submitted guess
+ * @member {boolean} opponentGuess true: target < teamGuess, false: target > teamGuess
+ * @member {number[]} score a tuple of [teamA score, teamB score]
  */
 const initialGameState = {
-  psychic: 0, // index of psychic in array
-  currentCard: ['first val', 'second val'],
-  target: 0, //0 - 100
+  psychic: '',
+  currentCard: ['left val', 'right val'],
+  target: 0,
   clue: '',
-  teamGuess: 0, // 0 - 100
-  opponentGuess: null, // true: target < teamGuess, false: target > teamGuess
-  score: [0, 0], // teamA, teamB
+  teamGuess: 0,
+  opponentGuess: null,
+  score: [0, 0],
 }
 
 /**
  * ACTION CREATORS
  */
-const setPsychic = (roomId, psychic) => ({type: SET_PSYCHIC, psychic, roomId})
+const setPsychic = (psychic) => ({type: SET_PSYCHIC, psychic})
 const setClueCardTarget = (clue, card, target) => ({
   type: SET_CLUE_CARD_TARGET,
   clue,
@@ -38,6 +46,7 @@ const setOpponentGuess = (opponentGuess) => ({
   opponentGuess,
 })
 const setScore = (score) => ({type: SET_SCORE, score})
+const increaseScore = (points, team) => ({type: INCREASE_SCORE, points, team})
 const setUpNextRound = () => ({type: SET_UP_NEXT_ROUND})
 const clearGame = () => ({type: CLEAR_GAME})
 
@@ -67,6 +76,13 @@ const game = (state = initialGameState, action) => {
       return {...state, opponentGuess: action.opponentGuess}
     case SET_SCORE:
       return {...state, score: action.score}
+    case INCREASE_SCORE:
+      return {
+        ...state,
+        score: state.score.map((s, i) =>
+          i === action.team ? s + action.points : s
+        ),
+      }
     case SET_UP_NEXT_ROUND:
       //clears game state, increments psychic, keeps score
       return {
