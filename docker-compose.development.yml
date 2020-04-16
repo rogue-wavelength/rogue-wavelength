@@ -1,0 +1,18 @@
+version: '3.7'
+services:
+  postgres:
+    env_file:
+      - development.env
+
+  app:
+    env_file:
+      - development.env
+    build:
+        context: ./
+        dockerfile: Dockerfile
+        target: development
+    volumes:
+      - type: bind
+        source: ./
+        target: /app
+    command: npm run start-dev

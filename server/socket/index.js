@@ -1,32 +1,39 @@
-const store = require('../store')
 const {addPlayer, removePlayer} = require('../store/playerList')
+const lc = require('../game/lobby')
 
 module.exports = (io) => {
   io.on('connect', (socket) => {
     console.log(`A socket connection to the server has been made: ${socket.id}`)
+    socket.on('room', (room) => {
+      socket.join(room)
+      if (!lc.getLobby(room)) lc.addLobby(room)
+      console.log(`${socket.id} joined ${room}`)
+      console.log(lc.getLobby(room).getState().playerList)
+    })
 
     socket.on('joinRoom', (data) => {
       socket.join(data.room)
-      store.dispatch(addPlayer({name: data.name, id: socket.id})) // associate socket id with user id?? with session id?
       console.log('joined ' + data.room)
+      lc.getLobby(room).dispatch(addPlayer({name: data.name, id: socket.id}))
+      //store.dispatch(addPlayer({name: data.name, id: socket.id})) // associate socket id with user id?? with session id?
     })
     // add player to back end redux state
 
-    store.dispatch(addPlayer(socket.id)) // associate socket id with user id?? with session id?
     // send message to everyone
     // socket.emit('everyone')
 
     socket.on('game', (room) => {
       console.log('game clicked server', room)
+      addLobby(room)
 
       io.sockets.in(room).emit('message', 'whats up peeps?')
       // start game?
       // determine first psychic (initial state has it at 0 already) and emit 'waiting'
-      socket.emit('waiting', store.getState().game.psychic)
+      socket.emit('waiting', lc.getLobby(room).getState().game.psychic)
 
       // send message to just one user (test case)
       // socket
-      //   .to(store.getState().playerList[0])
+      //   .to(getLobby.getState().playerList[0])
       //   .emit('hi', 'this is the second argument')
     })
 
@@ -58,7 +65,8 @@ module.exports = (io) => {
 
     socket.on('disconnect', () => {
       console.log(`Connection ${socket.id} has left the building`)
-      store.dispatch(removePlayer(socket.id)) // re-evaluate this...
+      // I don't think a socket disconnecting is the same thing as a player leaving a room.
+      // getLobby.dispatch(removePlayer(socket.id)) // re-evaluate this...
     })
   })
 }

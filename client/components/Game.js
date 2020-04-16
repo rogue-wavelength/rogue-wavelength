@@ -2,6 +2,7 @@ import React, {useEffect} from 'react'
 import {PlayerView, PsychicView, TeamList, MainDisplay} from './'
 import socket from '../socket'
 import {useSelector} from 'react-redux'
+import Party from '../components/Party'
 
 const teamA = ['Jasmine', 'Antanas', 'a duck']
 const teamB = ['Lihan', 'Crispy', 'Yena', 'Jonathan']
@@ -18,23 +19,21 @@ const Game = (props) => {
     socket.emit('joinRoom', {room, name})
   }, [])
 
-  const handleClick = (evt) => {
-    socket.emit('game', room)
-  }
+  // const handleClick = (evt) => {
+  //   socket.emit('game', room)
+  // }
 
   return (
     <div>
-      <p>Your game room is: {props.match.params.id}</p>
+      {/* <p>Your game room is: {props.match.params.id}</p>
       <button type="button" onClick={handleClick}>
         Start Game
-      </button>
+      </button> */}
       <div className="grid-container">
         <TeamList team={teamA} psychic={psychic} />
         <MainDisplay />
         <TeamList team={teamB} psychic={psychic} />
       </div>
-      {/* <PlayerView /> */}
-      {/* <PsychicView /> */}
     </div>
   )
 }
