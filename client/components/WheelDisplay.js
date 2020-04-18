@@ -66,7 +66,8 @@ const WheelDisplay = function (props) {
         data={dataList}
         labelPosition="centroid"
         labelRadius={120}
-        radius={150}
+        radius={100}
+        height={300}
         animate={{duration: 2000}}
       />
     </div>

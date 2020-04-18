@@ -16,7 +16,7 @@ const Game = (props) => {
 
   // join room on load in case you navigated via a link
   useEffect(() => {
-    socket.emit('joinRoom', {room, name})
+    // socket.emit('joinRoom', {room, name})
   }, [])
 
   // const handleClick = (evt) => {
@@ -30,7 +30,23 @@ const Game = (props) => {
         Start Game
       </button> */}
       <div className="grid-container">
-        <TeamList team={teamA} psychic={psychic} />
+        <TeamList team={teamA} psychic={psychic}>
+          {teamA.map((player, i) => {
+            if (psychic === player) {
+              return (
+                <div key={i} className="player-card psychic">
+                  {player}
+                </div>
+              )
+            } else {
+              return (
+                <div key={i} className="player-card">
+                  {player}
+                </div>
+              )
+            }
+          })}
+        </TeamList>
         <MainDisplay />
         <TeamList team={teamB} psychic={psychic} />
       </div>
