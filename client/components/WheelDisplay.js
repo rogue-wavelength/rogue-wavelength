@@ -10,8 +10,15 @@ import {
 
 const WheelDisplay = function (props) {
   // const position = useSelector((state) => state.target)
-  const position = 95
+  const position = 100 - 75
 
+  function scale(x, type) {
+    const distance = Math.abs(position - x)
+    if (distance === 0) return type === 'color' ? 'red' : 4
+    else if (distance <= 5) return type === 'color' ? 'gold' : 3
+    else if (distance <= 10) return type === 'color' ? 'orange' : 2
+    else return type === 'color' ? 'beige' : undefined
+  }
   // THIS LOGIC NEEDS TO BE FINE TUNED. MATHS AND LOGIC INVOLVED
 
   // let dataList = [
@@ -77,13 +84,7 @@ const WheelDisplay = function (props) {
     //   animate={{duration: 2000}}
     // /> */}
     <div className="wheel-display">
-      <VictoryChart
-        polar
-        startAngle={0}
-        endAngle={180}
-        minDomain={{x: 0}}
-        maxDomain={{x: 100}}
-      >
+      <VictoryChart polar startAngle={0} endAngle={180} domain={{x: [0, 100]}}>
         <VictoryAxis tickFormat={() => ''} />
         <VictoryBar
           data={Array.from({length: 7}, (_, i) => ({
@@ -92,15 +93,17 @@ const WheelDisplay = function (props) {
           }))}
           style={{
             data: {
-              fill: ({datum: {x}}) => {
-                const distance = Math.abs(position - x)
-                if (distance === 0) return 'red'
-                else if (distance <= 5) return 'gold'
-                else if (distance <= 10) return 'orange'
-                else return 'beige'
-              },
+              fill: ({datum: {x}}) => scale(x, 'color'),
             },
           }}
+          labels={({datum: {x}}) => scale(x, 'points')}
+          labelComponent={
+            <VictoryLabel
+              transform={({x, y}) => {
+                return `rotate(0,${x},${y})`
+              }}
+            />
+          }
         />
       </VictoryChart>
     </div>
