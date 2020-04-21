@@ -97,13 +97,7 @@ const WheelDisplay = function (props) {
             },
           }}
           labels={({datum: {x}}) => scale(x, 'points')}
-          labelComponent={
-            <VictoryLabel
-              transform={({x, y}) => {
-                return `rotate(0,${x},${y})`
-              }}
-            />
-          }
+          labelComponent={<VictoryLabel dy={10} verticalAnchor="start" />}
         />
       </VictoryChart>
     </div>
