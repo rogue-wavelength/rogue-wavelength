@@ -92,7 +92,7 @@ const Staging = (props) => {
           <input
             type="text"
             value={room}
-            onChange={(evt) => setRoom(evt.target.value)}
+            onChange={(evt) => setRoom(evt.target.value.toUpperCase())}
           />
         </label>
         <button
