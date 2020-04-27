@@ -10,9 +10,21 @@ services:
     build:
         context: ./
         dockerfile: Dockerfile
-        target: development
+        target: builder
     volumes:
       - type: bind
-        source: ./
-        target: /app
-    command: npm run start-dev
+        source: ./client
+        target: /app/client
+      - type: bind
+        source: ./server
+        target: /app/server
+      # - type: bind
+      #   source: ./script
+      #   target: /app/script
+      # - type: volume
+      #   source: node_modules_dev
+      #   target: /app/node_modules
+    command: ["npm", "run", "start-dev"]
+
+# volumes:
+#   node_modules_dev:

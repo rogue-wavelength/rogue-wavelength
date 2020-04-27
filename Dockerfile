@@ -1,26 +1,25 @@
 # STAGE 1: Base
 FROM node:alpine AS base
 WORKDIR /app
+COPY ./package.json ./package-lock.json ./
 
 # STAGE 2: Development
 FROM base AS development
-COPY ./package.json ./package-lock.json ./
 
 # Install production dependencies and store them in tmp
-RUN npm ci
+RUN npm ci --only=prod
 RUN cp -R node_modules /tmp/node_modules
-
-# Install dev dependencies for building
-RUN npm i --only=prod
 COPY . .
 
-# Stage 3: Build
 FROM development AS builder
+# Install dev dependencies for building
+RUN npm i --only=dev
 
-RUN npm run lint
-RUN npm run prettify
+# Stage 3: Build
 # RUN npm run test # tests are not passing right now
 RUN npm run build-client
+
+CMD ["npm", "run", "start-dev"]
 
 # STAGE 4: Run
 FROM base AS prod
@@ -32,6 +31,5 @@ COPY --from=builder /app/server ./server
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/secrets.js ./secrets.js
 COPY --from=builder /app/script/seed.js ./script/seed.js
-COPY --from=builder /app/package.json ./
 
-CMD ["npm", "run", "start-server"]
+CMD ["npm", "run", "start"]
