@@ -29,6 +29,7 @@ const playerList = (state = initialPlayerList, action) => {
     // as "Yena", so maybe either have a duplicate checking feature and append a number to the end of the name
     // or use a sessionId from the cookie?
     case ADD_PLAYER:
+      console.log('add player', action.player.name)
       return {...state, [action.player.name]: action.player.id}
     case REMOVE_PLAYER:
       const {[action.player.name]: removed, ...newState} = state

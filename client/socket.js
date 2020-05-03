@@ -59,10 +59,10 @@ socket.on('connect', () => {
     console.log('Incoming message:', data)
   })
 
-  // socket.on('hi', (props) => {
-  //   // test listener for specific player
-  //   console.log('omg hi', props)
-  // })
+  socket.on('psychic', (props) => {
+    // test listener for specific player
+    console.log('you are the psychic', props)
+  })
 
   socket.on('waiting', (psychicId) => {
     console.log('waiting for psychic to choose card and clue')

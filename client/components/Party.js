@@ -6,7 +6,7 @@ const Party = (props) => {
   const players = useSelector((state) => state.playerList)
   const handleReadyUp = () => {
     props.history.push(`/game/${props.match.params.id}/play`)
-    socket.emit('game', props.match.params.id)
+    socket.emit('startGame', props.match.params.id)
   }
 
   return (

@@ -1,5 +1,7 @@
 const {addPlayer, removePlayer} = require('../store/playerList')
-const lc = require('../game/lobby')
+const lc = require('../lobby')
+const sequelize = require('sequelize')
+const {Card} = require('../db/models')
 
 module.exports = (io) => {
   io.on('connect', (socket) => {
@@ -22,19 +24,32 @@ module.exports = (io) => {
     // send message to everyone
     // socket.emit('everyone')
 
-    socket.on('game', (room) => {
-      console.log('game clicked server', room)
+    socket.on('startGame', async (room) => {
+      console.log('game is starting', room)
       // addLobby(room)
+      /**
+       * gets random card
+       * the values we care about can be accessed by
+       * card.left and card.right
+       */
+      const card = await Card.findOne({order: sequelize.literal('random()')})
 
-      io.sockets.in(room).emit('message', 'whats up peeps?')
-      // start game?
-      // determine first psychic (initial state has it at 0 already) and emit 'waiting'
-      socket.emit('waiting', lc.getLobby(room).getState().game.psychic)
+      const wheel = Math.floor(Math.random() * 100)
 
-      // send message to just one user (test case)
+      // io.sockets.in(room).emit('message', 'whats up peeps?')
+      // determine first psychic and emit 'waiting' to all others
+      /**
+       * Emit 'waiting' to everyone in the room
+       */
+      // socket.emit('waiting', lc.getLobby(room).getState().game.psychic)
+
+      /**
+       * Emit 'psychic' to just the psychic
+       * with card and wheel data (random number between 0 and 100)
+       */
       // socket
       //   .to(getLobby.getState().playerList[0])
-      //   .emit('hi', 'this is the second argument')
+      //   .emit('psychic', {card, wheel})
     })
 
     socket.on('flip', (cardData) => {
