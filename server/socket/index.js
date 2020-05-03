@@ -24,7 +24,7 @@ module.exports = (io) => {
 
     socket.on('game', (room) => {
       console.log('game clicked server', room)
-      addLobby(room)
+      // addLobby(room)
 
       io.sockets.in(room).emit('message', 'whats up peeps?')
       // start game?
